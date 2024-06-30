@@ -12,18 +12,21 @@ interface IProps {
   }
 
   const FormField: React.FC<IProps> = ({ title, value, placeholder, handleChangeText, otherStyles, ...props }) => {
+    const [isFocused, setIsFocused] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
     return (
       <View className={`space-y-2 ${otherStyles}`}>
         <Text className='text-base text-gray-100 font-pmedium'>{title}</Text>
-        <View className='border-2 border-black-200  w-full h-16 px-4 bg-black-100 rounded-2xl focus:border-[#FF9C01] items-center flex-row'>
+        <View className={`w-full h-16 px-4 bg-black-100 rounded-2xl flex-row items-center border-2 ${isFocused ? 'border-orange-400' : 'border-black-200'}`}>
           <TextInput
             className='flex-1 text-white font-psemibold text-base'
             value={value}
             placeholder={placeholder}
             placeholderTextColor="#7b7b8b"
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
             onChangeText={handleChangeText}
             secureTextEntry={(title === 'Password' && !showPassword) || (title === 'ConfirmPassword' && !showConfirmPassword)}
             {...props}

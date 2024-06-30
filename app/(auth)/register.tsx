@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView, View, Image, Text } from 'react-native';
-import FormField from '~/components/formFieldComponment/formField';
+import FormField from '../../components/formFieldComponment/formField';
 import { images } from '../../constants';
-import ButtonComponent from '~/components/buttonComponment/button'
+import ButtonComponent from '../../components/buttonComponment/button'
 import { Link } from 'expo-router';
 const register = () => {
   const [valueLogin, setValueLogin] = useState({

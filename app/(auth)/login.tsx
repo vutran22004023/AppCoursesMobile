@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView, View, Image, Text } from 'react-native';
-import FormField from '~/components/formFieldComponment/formField';
+import FormField from '../../components/formFieldComponment/formField';
 import { images } from '../../constants';
-import ButtonComponent from '~/components/buttonComponment/button'
+import ButtonComponent from '../../components/buttonComponment/button';
 import { Link } from 'expo-router';
 const Login = () => {
   const [valueLogin, setValueLogin] = useState({
     email: '',
     password: '',
   });
-  const [isLoading, setIsloading] = useState()
+  const [isLoading, setIsloading] = useState();
 
   const handleOnchange = (text: string, fieldName: string) => {
     setValueLogin({
@@ -57,14 +57,9 @@ const Login = () => {
             isLoading={isLoading}
           />
 
-<View className='justify-center pt-5 flex-row gap-2'>
-            <Text className='text-lg text-gray-100'>
-              Bạn chưa có tài khoản ?
-            </Text>
-            <Link
-              href="/register"
-              className='text-lg font-semibold text-secondary'
-            >
+          <View className="flex-row justify-center gap-2 pt-5">
+            <Text className="text-lg text-gray-100">Bạn chưa có tài khoản ?</Text>
+            <Link href="/register" className="text-lg font-semibold text-secondary">
               Đăng kí
             </Link>
           </View>

@@ -3,10 +3,6 @@ import { StyleSheet, Text, View } from 'react-native'
 import React,{useEffect} from 'react'
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
-// import { Button } from '~/components/Button';
-// import { Container } from '~/components/Container';
-// import { ScreenContent } from '~/components/ScreenContent';
-
 
 const RootLayout = () => {
     const [fontsLoaded, error] = useFonts({
