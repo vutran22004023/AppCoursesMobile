@@ -28,7 +28,7 @@ interface IProps {
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             onChangeText={handleChangeText}
-            secureTextEntry={(title === 'Password' && !showPassword) || (title === 'ConfirmPassword' && !showConfirmPassword)}
+            secureTextEntry={(title === 'Password' && !showPassword) || (title === 'Mật khẩu' && !showPassword) || (title === 'ConfirmPassword' && !showConfirmPassword) || (title === 'Xác nhận mật khẩu' && !showConfirmPassword)}
             {...props}
           />
           {title ==='Password' && (
@@ -38,7 +38,23 @@ interface IProps {
               <Image source={!showPassword ? icons.eye : icons.eyeHide } className="w-6 h-6" resizeMode='contain'/>
             </TouchableOpacity>
           )}
+          {title ==='Mật khẩu' && (
+            <TouchableOpacity onPress={()=>
+              setShowPassword(!showPassword)
+            }>
+              <Image source={!showPassword ? icons.eye : icons.eyeHide } className="w-6 h-6" resizeMode='contain'/>
+            </TouchableOpacity>
+          )}
           {title === 'ConfirmPassword' && (
+            <TouchableOpacity onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
+              <Image
+                source={!showConfirmPassword ? icons.eye : icons.eyeHide}
+                className="w-6 h-6"
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+          )}
+          {title === 'Xác nhận mật khẩu' && (
             <TouchableOpacity onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
               <Image
                 source={!showConfirmPassword ? icons.eye : icons.eyeHide}

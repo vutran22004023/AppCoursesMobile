@@ -5,8 +5,9 @@
 
     "baseUrl": ".",
     "paths": {
-      "~/*": ["*"]
+      "~/*": ["*"],
+      "@/*": ["*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "**/*.js", "expo-env.d.ts", "app/index.js"]
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "**/*.js", "expo-env.d.ts", "app/_layout.tsx"]
 }

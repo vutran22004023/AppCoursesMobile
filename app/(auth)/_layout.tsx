@@ -6,7 +6,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const authLayout = () => {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={{ flex: 1, backgroundColor: '#161622' }}>
       <Stack>
         <Stack.Screen
           name="login"
@@ -28,4 +28,9 @@ const authLayout = () => {
 
 export default authLayout;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#161622', // Thiết lập màu nền ở đây
+  },
+});

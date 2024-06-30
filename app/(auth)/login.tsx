@@ -1,16 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ScrollView, View, Image, Text } from 'react-native';
-import FormField from '../../components/formFieldComponment/formField';
-import { images } from '../../constants';
-import ButtonComponent from '../../components/buttonComponment/button';
+import { ScrollView, View, Image, Text, Alert } from 'react-native';
+import FormField from '@/components/formFieldComponment/formField';
+import { images } from '@/constants';
+import ButtonComponent from '@/components/buttonComponment/button';
 import { Link } from 'expo-router';
+import {LoginService} from '@/services/loginRegister'
+import { useMutationHook } from '@/hooks';
+import { ILogin } from '~/types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const Login = () => {
   const [valueLogin, setValueLogin] = useState({
     email: '',
     password: '',
   });
-  const [isLoading, setIsloading] = useState();
+
+  const saveToken = async (token: string) => {
+    try {
+      await AsyncStorage.setItem('accessToken', token);
+    } catch (error) {
+      console.error('Error saving token', error);
+    }
+  };
 
   const handleOnchange = (text: string, fieldName: string) => {
     setValueLogin({
@@ -19,10 +30,39 @@ const Login = () => {
     });
   };
 
-  const submit = () => {
-    // Submit logic here
+  const mutationLogin = useMutationHook(async (data: ILogin) => {
+    const res = await LoginService(data);
+    return res;
+  });
+
+   // Function to check if the input is a valid email format
+   const isValidEmail = (email: string): boolean => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
+  // Function to check if password meets the criteria
+  const isValidPassword = (password: string): boolean => {
+    // Password must be at least 6 characters, contain special character, and have at least one uppercase letter
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+    return regex.test(password);
+  };
+
+  const { data: dataLogin, isPending: isLoading, isError,error } = mutationLogin;
+
+  useEffect(() => {
+    if(dataLogin?.status === 200) {
+      saveToken(dataLogin.access_Token);
+    }
+  },[dataLogin])
+  const submit = () => {
+    if ( !valueLogin.email || !valueLogin.password ) {
+      Alert.alert('Vui lòng nhập đầy đủ thông tin.');
+      return;
+    }
+    mutationLogin.mutate(valueLogin);
+  };
+
+  const isButtonDisabled = !valueLogin.email || !valueLogin.password
   return (
     <SafeAreaView style={{ backgroundColor: '#161622', height: '100%' }}>
       <ScrollView>
@@ -41,7 +81,7 @@ const Login = () => {
           />
 
           <FormField
-            title="Password"
+            title="Mật khẩu"
             name="password"
             value={valueLogin.password}
             handleChangeText={(text) => handleOnchange(text, 'password')}
@@ -49,12 +89,22 @@ const Login = () => {
             keyboardType="default"
             placeholder=""
           />
+                    {dataLogin?.status === 'ERR' && (
+            <Text className='text-[#aa232a] mt-3 text-base'>
+              {dataLogin?.message}
+            </Text>
+          )}
+          {dataLogin?.status === 200 && (
+            <Text className='text-[#3df033] mt-3 text-base'>
+              {dataLogin?.message}
+            </Text>
+          )}
 
           <ButtonComponent
             title="Đăng nhập"
             handlePress={submit}
             containerStyles={`mt-7`}
-            isLoading={isLoading}
+            isLoading={isLoading || isButtonDisabled}
           />
 
           <View className="flex-row justify-center gap-2 pt-5">

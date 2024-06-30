@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import {images} from '../constants'
 import ButtonComponment from '../components/buttonComponment/button'
 import { Redirect, router } from "expo-router";
+
 const index = () => {
   return (
     <SafeAreaView style={{backgroundColor:'#161622', height:'100%'}}>
